@@ -6,17 +6,31 @@ using UnityEngine;
 
 public class SpatulaMovement : MonoBehaviour
 {
-    [SerializeField] private  Transform posSpatulaUp;
-    [SerializeField] private  Transform posSpatulaDown;
-    [SerializeField] private  float spatulaMovementSpeed;
-    
+    //private values
+    private Rigidbody spatulaRb;
     private bool spatulaDown = false;
+
+    //public values
+    public Vector3 velocitySpatula = new Vector3(0,0,2);
+    
+    //Serialized values
+    [SerializeField] private  float spatulaMovementSpeed;
+
+    private void Start()
+    {
+        spatulaRb = this.gameObject.GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        spatulaRb.velocity = velocitySpatula;
+    }
 
     private void MoveSpatulaDown()
     {
         if (!spatulaDown)
         {
-            this.transform.DOMove(posSpatulaDown.position, spatulaMovementSpeed);
+            this.transform.DOMove(this.transform.position + Vector3.down, spatulaMovementSpeed);
             spatulaDown = true;
         }
     }
@@ -24,7 +38,7 @@ public class SpatulaMovement : MonoBehaviour
     {
         if (spatulaDown)
         {
-            this.transform.DOMove(posSpatulaUp.position , spatulaMovementSpeed);
+            this.transform.DOMove(this.transform.position + Vector3.up , spatulaMovementSpeed);
             spatulaDown = false;
         }
     }
